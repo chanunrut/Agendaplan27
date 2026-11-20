@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#B8601A">
+<title>แผนงานช่องช่างผมวัยเก๋า</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F7EDE0;--card:#FFFBF5;--ink:#3B2A20;--mute:#7C6657;--pri:#B8601A;--soft:#F2D4AE;--ok:#4C8A5B;--bad:#C2414F;--line:#E6D3BC}
+*{box-sizing:border-box}
+body{margin:0;font:17px/1.5 Sarabun,"Noto Sans Thai",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding:0 14px 96px}
+header{padding:calc(env(safe-area-inset-top) + 14px) 0 6px}
+header small{color:var(--mute);font-size:14px}
+h1{margin:0;font-size:22px}h2{margin:0 0 10px}h3{margin:14px 0 6px;font-size:18px}
+h3 span{background:var(--soft);border-radius:20px;padding:0 9px;font-size:14px;margin-left:4px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;overflow-x:auto;background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(env(safe-area-inset-bottom) + 6px);z-index:5}
+nav button{flex:1 0 66px;border:0;background:none;font:inherit;font-size:13px;color:var(--mute);padding:4px 2px;border-radius:12px}
+nav button b{display:block;font-size:20px;font-weight:400}
+nav button.on{background:var(--soft);color:var(--ink);font-weight:700}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 8px}
+.chip{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:22px;padding:6px 14px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer}
+.chip.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.btn{display:block;width:100%;border:0;background:var(--pri);color:#fff;font:inherit;font-weight:700;border-radius:14px;padding:12px;margin:8px 0;cursor:pointer}
+.btn.ghost{background:var(--soft);color:var(--ink)}.btn.del{background:var(--bad)}.btn.sm{padding:7px;font-size:15px}
+.card,.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}
+.card.dn{opacity:.75}.row{display:flex;gap:8px}.main{flex:1;min-width:0}
+.hd{touch-action:none;user-select:none;font-size:24px;color:var(--mute);padding:0 4px;cursor:grab;align-self:center}
+.meta{font-size:14px;color:var(--mute)}.late{color:var(--bad);font-weight:700}
+.tag{font-style:normal;font-size:12px;background:var(--soft);border-radius:10px;padding:1px 8px;margin:2px 4px 2px 0;display:inline-block}
+.bar{height:9px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 2px}
+.bar u{display:block;height:100%;background:var(--ok);border-radius:6px}
+small{color:var(--mute)}
+.empty{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--mute);font-size:15px}
+.over{outline:3px dashed var(--pri);outline-offset:2px;border-radius:12px}
+.bf{box-shadow:0 -4px 0 var(--pri)}.af{box-shadow:0 4px 0 var(--pri)}
+.warn{background:#FCE4D2;border:1px solid #E9B48C;border-radius:12px;padding:10px;margin:6px 0;font-size:15px}
+.hint{font-size:14px;color:var(--mute);margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.big{font-size:30px;font-weight:700;color:var(--pri);line-height:1.1}
+.ov{position:fixed;inset:0;background:#2B1A1088;z-index:20;display:flex;align-items:flex-end}
+.sheet{background:var(--bg);width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 16px calc(env(safe-area-inset-bottom) + 16px)}
+label{display:block;font-size:15px;color:var(--mute);margin:8px 0 2px}
+input:not([type=checkbox]):not([type=range]),select,textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:9px}
+textarea{min-height:90px}input[type=range]{width:100%;accent-color:var(--pri)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lab{font-size:15px;color:var(--mute);margin-top:8px}
+.ti{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.ti label{margin:0;color:var(--ink);font-size:16px}.ti input{width:20px;height:20px;accent-color:var(--ok);vertical-align:middle}
+.st{text-decoration:line-through;color:var(--mute)}
+.x{border:0;background:none;color:var(--mute);font-size:18px;padding:6px 10px}
+.stb{border:0;background:none;font-size:26px;padding:0 6px;align-self:flex-start;cursor:pointer}
+.pt{white-space:pre-wrap;font-size:15px;margin:6px 0}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 18px;border-radius:20px;z-index:30;display:none;font-size:15px}
+</style></head><body>
+<header><small>ช่อง “สอนช่างทำผมวัยเก๋าใช้ AI ปั้นโซเชียล”</small><h1 id="ttl"></h1></header>
+<main id="app"></main><div id="m"></div><div id="toast"></div>
+<nav id="nav"></nav>
+<script>
+const P=['TikTok','Facebook','YouTube','กลุ่มเฟซบุ๊ก','ไลฟ์สด'],ST=['ยังไม่เริ่ม','กำลังทำ','เสร็จแล้ว'],CATS=['ภาพปก','วิดีโอสั้น','โพสต์กลุ่ม','ไลฟ์สด','สคริปต์คลิป'];
+const PG=[['tasks','✅','งาน','รายการงาน'],['wk','📅','7 วัน','แผนงาน 7 วัน'],['ov','📊','ภาพรวม','ภาพรวมความคืบหน้า'],['tl','🗓️','ไทม์ไลน์','ไทม์ไลน์รายสัปดาห์'],['stats','📈','สถิติ','สถิติหลังโพสต์และไลฟ์'],['pr','✨','พรอมต์','จัดการพรอมต์ AI'],['csv','📁','CSV','นำเข้า / ส่งออก CSV'],['nt','🔔','แจ้งเตือน','ตั้งค่าแจ้งเตือน']];
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9);
+const pad=n=>String(n).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const day=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)},today=()=>day(0);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fd=x=>x?new Date(x+'T00:00').toLocaleDateString('th-TH',{day:'numeric',month:'short',year:'2-digit'}):'';
+const mk=(title,s,d,note,pl,rec='')=>({id:uid(),title,s,d,st:ST[0],pr:0,note,pl,rec});
+const WK=`1|09:00–10:00|จัดระเบียบไฟล์ Google Drive|ทุกชีทเปิดแก้ไขได้, ตั้งชื่อชีทเรียบร้อย|ทุกแพลตฟอร์ม|วางคำอธิบายส่วนหัวทุกชีท
+1|10:00–11:30|ปรับโปรไฟล์ทุกแพลตฟอร์ม|ชื่อ, รูปโปรไฟล์, คำอธิบาย, ลิงก์ตรงกัน|ทุกแพลตฟอร์ม|ทำให้เอกลักษณ์ตรงกันทุกช่องทาง
+1|11:30–13:00|เตรียมแม่แบบภาพปกชุดแรก|มีพรอมต์พร้อม, สีและฟอนต์ตรงธีม|ทุกแพลตฟอร์ม|บันทึกพรอมต์ลงในหน้าจัดการพรอมต์ AI
+1|13:00–14:00|สร้างตารางบันทึกผลรายวัน|มีคอลัมน์ครบถ้วนสำหรับบันทึกสถิติ|ทุกแพลตฟอร์ม|เตรียมที่สำหรับบันทึกหลังโพสต์
+1|14:00–15:00|วางไทม์ไลน์สัปดาห์แรก|ตรงกับแผนเดือนธันวาคม–มกราคม|ทุกแพลตฟอร์ม|อัปเดตในชีทไทม์ไลน์และแอป Todo
+1|15:00–16:00|บันทึกงานลงเว็บแอป Todo|เพิ่มงาน, ตั้งวันกำหนด, เปิดแจ้งเตือน|ทุกแพลตฟอร์ม|ใช้ฟังก์ชันลากวางและกรองตามแพลตฟอร์ม
+1|16:00–17:00|รีวิวงานวันนี้|อัปเดตสถานะและความคืบหน้า|ทุกแพลตฟอร์ม|ปรับเวลาในแผนถ้าจำเป็น
+2|09:00–10:30|สร้างพรอมต์ AI ชุดภาพปกและภาพตัวอย่าง|บันทึกลงหน้าจัดการพรอมต์|ทุกแพลตฟอร์ม|คัดลอกใช้งานได้จากในแอป
+2|10:30–12:00|ถ่ายวัสดุคลิปชุดแรก|มีไฟล์วิดีโอ/ภาพต้นฉบับครบ|TikTok, Facebook, YouTube|ถ่ายตามสคริปต์ที่เตรียมไว้
+2|12:00–13:30|ตรวจสอบกลุ่มเฟซบุ๊กที่จะโพสต์|อ่านกฎกลุ่ม, บันทึกชื่อกลุ่ม|กลุ่มเฟซบุ๊ก|หลีกเลี่ยงโพสต์โดนลบ
+2|13:30–15:00|เขียนข้อความโพสต์กลุ่มชุดแรก|ไม่โฆษณาโอเวอร์, มีคำถามกระตุ้นคอมเมนต์|กลุ่มเฟซบุ๊ก|บันทึกลงชีทรายการกลุ่มเฟซ
+2|15:00–16:30|ปรับแต่งภาพปกชุดแรก|อ่านง่าย, สีตรงธีม, มีชื่อช่อง|ทุกแพลตฟอร์ม|ใช้พรอมต์จากหน้าพรอมต์ AI
+2|16:30–17:00|อัปเดตความคืบหน้าในแอป Todo|กรองงานตามแพลตฟอร์ม, ย้ายสถานะ|ทุกแพลตฟอร์ม|ตรวจสอบแถบความคืบหน้าภาพรวม
+3|09:00–11:00|ตัดต่อคลิปสัปดาห์ที่ 1|มีเสียงพากย์ไทย, ข้อความบนหน้าจอ, ความยาวเหมาะสม|TikTok, Facebook, YouTube|เตรียมไฟล์สำหรับโพสต์
+3|11:00–12:30|เตรียมคำบรรยายและแฮชแท็ก|บันทึกลงในชีทสคริปต์คลิป|ทุกแพลตฟอร์ม|ตรวจสอบในหน้าสคริปต์ของแอป
+3|12:30–14:00|ทดสอบพรอมต์ AI สำหรับทำภาพทรงผมตัวอย่าง|บันทึกพรอมต์ที่ใช้ได้จริง|ทุกแพลตฟอร์ม|บันทึกผลลัพธ์ไว้เป็นตัวอย่าง
+3|14:00–15:30|ตรวจสอบตารางเวลาไลฟ์สัปดาห์แรก|มีหัวข้อ, ขั้นตอน, วันเวลา|TikTok Live, Facebook Live|อัปเดตในหน้ารายการไลฟ์สด
+3|15:30–17:00|เตรียมไฟล์สำรองคลิปและภาพ|บันทึกในโฟลเดอร์เรียบร้อย|ทุกแพลตฟอร์ม|บันทึกสำรองใน Google Drive
+4|09:00–10:30|ตรวจสอบไฟล์คลิปที่จะลงสัปดาห์แรก|ไม่มีข้อผิดพลาด, เสียงชัด|TikTok, Facebook, YouTube|ตรวจสอบก่อนตั้งเวลาโพสต์
+4|10:30–12:00|โพสต์คลิปแรกตามตาราง|โพสต์ครบแพลตฟอร์ม, ตั้งเวลาถ้าจะตั้ง|TikTok, Facebook, YouTube|ตรงกับไทม์ไลน์ที่วางไว้
+4|12:00–13:30|โพสต์ในกลุ่มเฟซบุ๊กชุดแรก|ไม่ผิดกฎกลุ่ม, ตอบคอมเมนต์เบื้องต้น|กลุ่มเฟซบุ๊ก|บันทึกผลตอบรับหลังโพสต์
+4|13:30–15:00|บันทึกสถิติหลังโพสต์|บันทึกยอดวิว, คอมเมนต์, แชร์, ติดตามใหม่|ทุกแพลตฟอร์ม|บันทึกลงหน้าบันทึกสถิติ
+4|15:00–16:30|เตรียมสคริปต์ไลฟ์สัปดาห์แรก|มีขั้นตอนสาธิต, คำถามสำหรับผู้ชม|TikTok Live, Facebook Live|บันทึกลงหน้ารายการไลฟ์สด
+4|16:30–17:00|อัปเดตความคืบหน้า|ลากย้ายสถานะในแอป Todo|ทุกแพลตฟอร์ม|ตรวจสอบภาพรวมความคืบหน้า
+5|09:00–10:30|เตรียมสิ่งของและหน้าจอสำหรับไลฟ์|แสงดี, เสียงชัด, เปิดแจ้งเตือน|TikTok Live, Facebook Live|ทดสอบอุปกรณ์ล่วงหน้า
+5|10:30–12:00|ทดสอบสาธิตพรอมต์ AI|ได้ผลลัพธ์ตรงกับที่ต้องการ|ทุกแพลตฟอร์ม|บันทึกพรอมต์ที่ใช้ได้จริง
+5|12:00–13:30|โพสต์คลิปถัดไปตามไทม์ไลน์|ตรงวันเวลาที่วางไว้|TikTok, Facebook, YouTube|ตรวจสอบคำบรรยายและแฮชแท็ก
+5|13:30–15:00|ตอบคอมเมนต์และรวบรวมคำขอจากผู้ชม|บันทึกไอเดียคลิปใหม่|ทุกแพลตฟอร์ม|บันทึกไอเดียลงในแอป
+5|15:00–16:30|บันทึกสถิติและปรับแผนเล็กน้อย|ถ้าคลิปไหนตอบรับดี ให้วางแผนทำต่อ|ทุกแพลตฟอร์ม|อัปเดตไทม์ไลน์ถ้าจำเป็น
+5|16:30–17:00|เตรียมงานสำหรับวันพรุ่งนี้|ตรวจสอบกำหนดในแอป Todo|ทุกแพลตฟอร์ม|เปิดแจ้งเตือนสำหรับงานถัดไป
+6|09:00–10:30|เตรียมไลฟ์สดสัปดาห์แรก|ประกาศไลฟ์ล่วงหน้าในทุกแพลตฟอร์ม|TikTok Live, Facebook Live|สร้างภาพปกประกาศไลฟ์
+6|10:30–12:00|สร้างภาพปกไลฟ์|มีวันเวลา, หัวข้อชัดเจน|TikTok Live, Facebook Live|ใช้พรอมต์จากหน้าพรอมต์ AI
+6|12:00–13:30|โพสต์คลิปตามแผน|ตรวจสอบลิงก์และข้อความ|TikTok, Facebook, YouTube|ตรงกับตารางเวลา
+6|13:30–15:30|ดำเนินการไลฟ์สด|บันทึกผลไลฟ์, จดคำถามที่ได้|TikTok Live, Facebook Live|บันทึกสถิติหลังไลฟ์
+6|15:30–17:00|บันทึกสถิติหลังไลฟ์|บันทึกจำนวนผู้เข้าชม, คำถาม, ผู้ติดตามใหม่|TikTok Live, Facebook Live|บันทึกลงหน้าบันทึกสถิติ
+7|09:00–10:30|รวบรวมสถิติทั้งสัปดาห์|บันทึกลงในชีทบันทึกผลรายวัน|ทุกแพลตฟอร์ม|รวมข้อมูลจากทุกแพลตฟอร์ม
+7|10:30–12:00|วิเคราะห์คลิปที่ได้ผลดีและคลิปที่ควรปรับ|บันทึกสาเหตุและแนวทางปรับปรุง|ทุกแพลตฟอร์ม|ใช้ข้อมูลวางแผนสัปดาห์ถัดไป
+7|12:00–13:30|วางแผนสัปดาห์ถัดไป|อัปเดตไทม์ไลน์, เพิ่มงานใหม่ในแอป Todo|ทุกแพลตฟอร์ม|ลากวางและกรองงานตามแพลตฟอร์ม
+7|13:30–15:00|ส่งออกไฟล์สำรอง CSV|บันทึกไว้ใน Google Drive|ทุกแพลตฟอร์ม|ใช้ฟังก์ชันส่งออกในแอป
+7|15:00–16:30|ตรวจสอบงานที่ยังค้าง|ปรับกำหนดเวลาถ้าจำเป็น|ทุกแพลตฟอร์ม|อัปเดตสถานะและความคืบหน้า
+7|16:30–17:00|ปิดงานสัปดาห์นี้|เตรียมตัวสำหรับสัปดาห์หน้า|ทุกแพลตฟอร์ม|ตรวจสอบภาพรวมความคืบหน้า`;
+function defaults(){const A=P.slice();return{
+tasks:[mk('จัดตั้งไฟล์ Google Sheets',day(0),day(0),'วางคำอธิบายส่วนหัวทุกชีท',A),
+mk('ปรับโปรไฟล์ทุกแพลตฟอร์ม',day(0),day(1),'ชื่อ, รูปโปรไฟล์, คำอธิบาย, ลิงก์ตรงกันทุกแพลตฟอร์ม',A),
+mk('เตรียมแม่แบบภาพปก',day(1),day(2),'ใช้พรอมต์จากหน้าจัดการพรอมต์ AI',A),
+mk('สร้างตารางบันทึกผลรายวัน',day(0),day(0),'เตรียมที่สำหรับบันทึกสถิติหลังโพสต์',A),
+mk('ถ่ายคลิปชุดสัปดาห์ที่ 1',day(2),day(4),'ตามสคริปต์ที่เตรียมไว้',['TikTok','Facebook','YouTube']),
+mk('เตรียมโพสต์กลุ่มเฟซบุ๊ก',day(3),day(4),'ตรวจสอบกฎกลุ่มก่อนโพสต์',['กลุ่มเฟซบุ๊ก']),
+mk('โพสต์ตามไทม์ไลน์',day(0),'','TikTok, Facebook, YouTube, กลุ่มเฟซ',A,'ดำเนินต่อเนื่อง'),
+mk('บันทึกสถิติหลังโพสต์/ไลฟ์',day(0),'','บันทึกยอดวิว, คอมเมนต์, แชร์, ติดตามใหม่',A,'ดำเนินต่อเนื่อง'),
+mk('เตรียมไลฟ์สดสัปดาห์แรก',day(4),day(5),'สาธิต AI สำหรับช่างทำผม (TikTok Live, Facebook Live)',['ไลฟ์สด']),
+mk('สรุปผลและปรับแผนรายสัปดาห์','','','ปรับหัวข้อ, ความถี่, และสัดส่วนคอนเทนต์',A,'ทุกอาทิตย์')],
+tl:[['ธันวาคม สัปดาห์ที่ 1','เปิดตัวแนวใหม่|สอนเขียนแคปชัน|รีวิวอุปกรณ์|ไลฟ์แนะนำช่อง'],['ธันวาคม สัปดาห์ที่ 2','สอนสร้างโพสต์โปรโมชัน|ทำภาพทรงผมตัวอย่าง|วิธีถ่ายรูปผลงาน'],['ธันวาคม สัปดาห์ที่ 3','สอนทำเมนูราคา|ประกาศวันหยุด|โพสต์เทศกาล'],['ธันวาคม สัปดาห์ที่ 4','เตรียมปีใหม่|ส่งท้ายปี|แจกพรอมต์ AI'],['มกราคม สัปดาห์ที่ 1','วางแผนโซเชียลปีใหม่'],['มกราคม สัปดาห์ที่ 2','เจาะลึกพรอมต์และเสียงพากย์'],['มกราคม สัปดาห์ที่ 3','เตรียมบริการ/แพ็กเกจสำหรับร้าน'],['มกราคม สัปดาห์ที่ 4','สรุปผลและปรับปรุงแผน']].map(([l,i])=>({id:uid(),l,i:i.split('|').map(t=>({t,d:false}))})),
+stats:[],wk:WK.trim().split('\n').map(l=>{const[d,tm,t,cr,pl,n]=l.split('|');return{id:uid(),d:+d,tm,t,cr,pl,st:ST[0],n}}),
+pr:[['ภาพปก','สอนเขียนแคปชัน','สร้างภาพปกคลิปแนวตั้ง 9:16 โทนอบอุ่น ช่างทำผมหญิงวัย 50 ปลายยิ้มแย้มถือโทรศัพท์ ข้อความใหญ่อ่านง่าย “เขียนแคปชันให้ปัง ด้วย AI” พื้นหลังร้านทำผมสะอาดตา'],
+['ภาพปก','ก่อน–หลังผม','สร้างภาพปกเปรียบเทียบก่อน–หลังทำผม แบ่งครึ่งภาพซ้ายขวา แสงนุ่ม สีอบอุ่น มีป้าย “ก่อน” และ “หลัง” ตัวใหญ่ ไม่มีโลโก้'],
+['ภาพปก','ไลฟ์สด','สร้างภาพปกประกาศไลฟ์สด แนวนอน 16:9 ช่างทำผมวัยเก๋านั่งหน้ากล้อง มีข้อความ “ไลฟ์สดวันนี้ สอนใช้ AI ทำโพสต์ร้าน” สีส้มอบอุ่น'],
+['โพสต์กลุ่ม','ถามกลุ่มช่าง','เขียนโพสต์ถามเพื่อนช่างในกลุ่มเฟซบุ๊ก ภาษาเป็นกันเอง ไม่เกิน 5 บรรทัด ถามว่า “ตอนนี้ทุกคนใช้อะไรช่วยเขียนโพสต์ร้านบ้าง” ปิดท้ายชวนคอมเมนต์'],
+['โพสต์กลุ่ม','แจกพรอมต์ AI','เขียนโพสต์แจกพรอมต์ AI ฟรีสำหรับช่างทำผม เกริ่น 2 บรรทัด ตามด้วยพรอมต์ที่คัดลอกไปใช้ได้ทันที และชวนกดบันทึกโพสต์'],
+['วิดีโอสั้น','สาธิตเขียนแคปชัน','เขียนสคริปต์วิดีโอสั้น 30 วินาที สาธิตการให้ AI ช่วยเขียนแคปชันโปรโมชันร้านทำผม เปิดด้วยคำถามดึงความสนใจ 3 วินาทีแรก พูดช้า ชัด ใช้ภาษาง่าย'],
+['วิดีโอสั้น','สร้างภาพทรงผม','เขียนสคริปต์วิดีโอสั้น 30 วินาที สาธิตสั่ง AI สร้างภาพทรงผมตัวอย่างให้ลูกค้าดู บอกขั้นตอนทีละข้อ 3 ข้อ'],
+['ไลฟ์สด','สอนใช้ AI สร้างโพสต์ร้าน','วางโครงไลฟ์สด 30 นาที สอนช่างทำผมวัยเก๋าใช้ AI สร้างโพสต์ร้าน: เปิด 3 นาที สาธิต 3 ขั้นตอน ถามตอบ 10 นาที สรุปและชวนติดตาม']].map(([cat,title,text])=>({id:uid(),cat,title,text})),
+set:{on:false,time:'08:00',before:true,last:'',ws:day(0)}}}
+let S;try{S=JSON.parse(localStorage.getItem('hairai1'))}catch(e){}
+S=S||defaults();S.page='tasks';S.flt='ทั้งหมด';S.cat='ภาพปก';S.wk=S.wk||defaults().wk;S.set.ws=S.set.ws||today();S.wd=0;
+const save=k=>{if(!k){S.mod=Date.now();if(S.set.url){clearTimeout(save.t);save.t=setTimeout(()=>sync(),2500)}}try{const{page,flt,cat,busy,wd,...d}=S;localStorage.setItem('hairai1',JSON.stringify(d))}catch(e){toast('บันทึกไม่ได้ ตรวจพื้นที่เบราว์เซอร์')}};
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2000)}
+function M(h){$('#m').innerHTML=h?`<div class="ov" onclick="if(event.target==this)M()"><div class="sheet">${h}</div></div>`:''}
+const late=t=>t.d&&t.d<today()&&t.st!=ST[2];
+const dueList=()=>{const a=today(),b=day(1);return S.tasks.filter(t=>t.st!=ST[2]&&t.d&&(t.d<=a||(S.set.before&&t.d==b)))};
+/* ---------- งาน ---------- */
+const card=t=>`<div class="card ${t.st==ST[2]?'dn':''}" data-id="${t.id}"><div class="row"><span class="hd" onpointerdown="startDrag(event,'${t.id}')">⠿</span><div class="main" onclick="editTask('${t.id}')"><b>${esc(t.title)}</b><div class="meta ${late(t)?'late':''}">${[t.s&&fd(t.s),t.d?fd(t.d):t.rec].filter(Boolean).join(' – ')||'ไม่กำหนดวัน'}${late(t)?' (เลยกำหนด)':''}</div><div>${t.pl.map(p=>`<i class="tag">${p}</i>`).join('')}</div><div class="bar"><u style="width:${t.pr}%"></u></div><small>${t.pr}%${t.note?' · '+esc(t.note):''}</small></div></div></div>`;
+function vTasks(){const L=S.tasks.filter(t=>S.flt=='ทั้งหมด'||t.pl.includes(S.flt)),d=dueList();
+return(d.length?`<div class="warn">🔔 ใกล้ครบกำหนด/เลยกำหนด ${d.length} งาน: ${esc(d.slice(0,3).map(t=>t.title).join(', '))}</div>`:'')+
+`<div class="chips">${['ทั้งหมด',...P].map(p=>`<button class="chip ${S.flt==p?'on':''}" onclick="S.flt='${p}';R()">${p}</button>`).join('')}</div><button class="btn" onclick="editTask()">+ เพิ่มงาน</button><p class="hint">ลากที่ปุ่ม ⠿ เพื่อเรียงลำดับหรือย้ายสถานะ</p>`+
+ST.map(s=>{const l=L.filter(t=>t.st==s);return`<section class="sec" data-st="${s}"><h3>${s}<span>${l.length}</span></h3>${l.map(card).join('')||'<div class="empty">ลากงานมาวางที่นี่</div>'}</section>`}).join('')}
+function editTask(id){const t=S.tasks.find(x=>x.id==id)||{title:'',s:today(),d:today(),st:ST[0],pr:0,note:'',pl:[]};
+M(`<h2>${id?'แก้ไขงาน':'เพิ่มงาน'}</h2><label>ชื่องาน<input id="f1" value="${esc(t.title)}"></label><div class="two"><label>วันเริ่ม<input type="date" id="f2" value="${t.s}"></label><label>วันครบกำหนด<input type="date" id="f3" value="${t.d}"></label></div><label>สถานะ<select id="f4">${ST.map(s=>`<option ${s==t.st?'selected':''}>${s}</option>`).join('')}</select></label><label>ความคืบหน้า <b id="pv">${t.pr}%</b><input type="range" id="f5" min="0" max="100" step="5" value="${t.pr}" oninput="document.getElementById('pv').textContent=this.value+'%'"></label><label>หมายเหตุ<textarea id="f6">${esc(t.note)}</textarea></label><div class="lab">แพลตฟอร์ม</div><div class="chips" style="flex-wrap:wrap">${P.map(p=>`<label class="chip ${t.pl.includes(p)?'on':''}" style="margin:0"><input type="checkbox" hidden value="${p}" ${t.pl.includes(p)?'checked':''} onchange="this.parentNode.classList.toggle('on',this.checked)">${p}</label>`).join('')}</div><button class="btn" onclick="saveTask('${id||''}')">บันทึก</button>${id?`<button class="btn del" onclick="delTask('${id}')">ลบงานนี้</button>`:''}<button class="btn ghost" onclick="M()">ยกเลิก</button>`)}
+function saveTask(id){const title=$('#f1').value.trim();if(!title)return toast('กรุณาใส่ชื่องาน');
+let t=S.tasks.find(x=>x.id==id);if(!t){t={id:uid(),rec:''};S.tasks.push(t)}
+const g=$('#m').querySelectorAll('input[type=checkbox]:checked');
+Object.assign(t,{title,s:$('#f2').value,d:$('#f3').value,st:$('#f4').value,pr:+$('#f5').value,note:$('#f6').value,pl:[...g].map(x=>x.value)});
+if(t.st==ST[2])t.pr=100;if(t.d||t.s)t.rec='';save();M();R()}
+function delTask(id){if(confirm('ลบงานนี้?')){S.tasks=S.tasks.filter(t=>t.id!=id);save();M();R()}}
+/* ---------- ลากวาง ---------- */
+let D=null;
+function startDrag(e,id){e.preventDefault();const el=e.target.closest('.card'),r=el.getBoundingClientRect(),g=el.cloneNode(true);
+g.style.cssText=`position:fixed;left:${r.left}px;top:${r.top}px;width:${r.width}px;z-index:99;pointer-events:none;box-shadow:0 8px 24px #0005`;document.body.appendChild(g);el.style.opacity=.3;D={id,g,dy:e.clientY-r.top}}
+addEventListener('pointermove',e=>{if(!D)return;D.g.style.top=e.clientY-D.dy+'px';if(e.clientY<100)scrollBy(0,-14);if(e.clientY>innerHeight-110)scrollBy(0,14);
+document.querySelectorAll('.over,.bf,.af').forEach(x=>x.classList.remove('over','bf','af'));
+const t=document.elementFromPoint(e.clientX,e.clientY),c=t&&t.closest('.card'),s=t&&t.closest('.sec');
+D.c=c&&c.dataset.id!=D.id?c.dataset.id:null;D.s=s?s.dataset.st:null;
+if(D.c){D.after=e.clientY>c.getBoundingClientRect().top+c.offsetHeight/2;c.classList.add(D.after?'af':'bf')}else if(s)s.classList.add('over')});
+function endDrag(ok){if(!D)return;const d=D;D=null;d.g.remove();
+if(ok&&d.s){const i=S.tasks.findIndex(t=>t.id==d.id),t=S.tasks.splice(i,1)[0];t.st=d.s;if(d.s==ST[2])t.pr=100;
+if(d.c){const j=S.tasks.findIndex(x=>x.id==d.c);S.tasks.splice(d.after?j+1:j,0,t)}else S.tasks.push(t);save()}R()}
+addEventListener('pointerup',()=>endDrag(true));addEventListener('pointercancel',()=>endDrag(false));
+/* ---------- ภาพรวม ---------- */
+function vOv(){const T=S.tasks,n=T.length||1,avg=Math.round(T.reduce((a,t)=>a+t.pr,0)/n),od=T.filter(late).length;
+const sum=k=>S.stats.reduce((a,x)=>a+(+x[k]||0),0);
+return`<div class="box"><small>ความคืบหน้ารวม</small><div class="big">${avg}%</div><div class="bar"><u style="width:${avg}%"></u></div></div>
+<div class="grid">${ST.map(s=>`<div class="box"><small>${s}</small><div class="big">${T.filter(t=>t.st==s).length}</div></div>`).join('')}<div class="box"><small>เลยกำหนด</small><div class="big" style="color:var(--bad)">${od}</div></div></div>
+<h3>แยกตามแพลตฟอร์ม</h3>${P.map(p=>{const l=T.filter(t=>t.pl.includes(p)),a=l.length?Math.round(l.reduce((x,t)=>x+t.pr,0)/l.length):0;return`<div class="box"><b>${p}</b> <small>${l.length} งาน · ${a}%</small><div class="bar"><u style="width:${a}%"></u></div></div>`}).join('')}
+<h3>สถิติรวมทั้งหมด</h3><div class="box">ยอดวิว <b>${sum('v').toLocaleString()}</b><br>คอมเมนต์ <b>${sum('c').toLocaleString()}</b> · แชร์ <b>${sum('sh').toLocaleString()}</b><br>บันทึก <b>${sum('sv').toLocaleString()}</b> · ติดตามใหม่ <b>${sum('f').toLocaleString()}</b></div>`}
+/* ---------- ไทม์ไลน์ ---------- */
+function vTl(){return S.tl.map(w=>`<div class="box"><b>${esc(w.l)}</b>${w.i.map((x,j)=>`<div class="ti"><label><input type="checkbox" ${x.d?'checked':''} onchange="tgI('${w.id}',${j})"> <span class="${x.d?'st':''}">${esc(x.t)}</span></label><button class="x" onclick="rmI('${w.id}',${j})">✕</button></div>`).join('')}<button class="btn sm ghost" onclick="addI('${w.id}')">+ เพิ่มหัวข้อ</button></div>`).join('')+`<button class="btn" onclick="addW()">+ เพิ่มสัปดาห์</button>`}
+const W=id=>S.tl.find(w=>w.id==id);
+const tgI=(id,j)=>{W(id).i[j].d=!W(id).i[j].d;save();R()},rmI=(id,j)=>{if(confirm('ลบหัวข้อนี้?')){W(id).i.splice(j,1);save();R()}};
+function addI(id){const t=prompt('หัวข้อใหม่');if(t&&t.trim()){W(id).i.push({t:t.trim(),d:false});save();R()}}
+function addW(){const l=prompt('ชื่อสัปดาห์ เช่น กุมภาพันธ์ สัปดาห์ที่ 1');if(l&&l.trim()){S.tl.push({id:uid(),l:l.trim(),i:[]});save();R()}}
+/* ---------- แผน 7 วัน ---------- */
+function vWk(){const ws=S.set.ws||today(),done=S.wk.filter(x=>x.st==ST[2]).length,A=S.wk.filter(x=>!S.wd||x.d==S.wd);
+let h=`<div class="box"><label>วันที่เริ่มแผน<input type="date" value="${ws}" onchange="S.set.ws=this.value;save(1);R()"></label><div class="bar"><u style="width:${Math.round(done*100/(S.wk.length||1))}%"></u></div><small>เสร็จ ${done}/${S.wk.length} รายการ · แตะ ⬜ เพื่อเปลี่ยนสถานะ</small></div><div class="chips">${[0,1,2,3,4,5,6,7].map(d=>`<button class="chip ${S.wd==d?'on':''}" onclick="S.wd=${d};R()">${d?'วันที่ '+d:'ทั้งหมด'}</button>`).join('')}</div><button class="btn" onclick="editWk()">+ เพิ่มรายการ</button>`;
+for(let d=1;d<=7;d++){const l=A.filter(x=>x.d==d).sort((a,b)=>a.tm.localeCompare(b.tm));if(!l.length)continue;const dt=new Date(ws+'T00:00');dt.setDate(dt.getDate()+d-1);
+h+=`<h3>วันที่ ${d}<span>${fd(iso(dt))}</span></h3>`+l.map(x=>`<div class="card ${x.st==ST[2]?'dn':''}"><div class="row"><button class="stb" onclick="cyc('${x.id}')">${x.st==ST[2]?'✅':x.st==ST[1]?'🔧':'⬜'}</button><div class="main" onclick="editWk('${x.id}')"><div class="meta">${esc(x.tm)}</div><b>${esc(x.t)}</b><div class="meta">${esc(x.cr)}</div><i class="tag">${esc(x.pl)}</i>${x.n?`<br><small>${esc(x.n)}</small>`:''}</div></div></div>`).join('')}
+return h}
+function cyc(id){const x=S.wk.find(w=>w.id==id);x.st=ST[(ST.indexOf(x.st)+1)%3];save();R()}
+function editWk(id){const x=S.wk.find(w=>w.id==id)||{d:S.wd||1,tm:'',t:'',cr:'',pl:'ทุกแพลตฟอร์ม',st:ST[0],n:''};
+M(`<h2>${id?'แก้ไขรายการ':'เพิ่มรายการ'}</h2><div class="two"><label>วัน<select id="w1">${[1,2,3,4,5,6,7].map(d=>`<option value="${d}" ${d==x.d?'selected':''}>วันที่ ${d}</option>`).join('')}</select></label><label>เวลา<input id="w2" value="${esc(x.tm)}" placeholder="09:00–10:00"></label></div><label>งาน<input id="w3" value="${esc(x.t)}"></label><label>เกณฑ์ความสำเร็จ<textarea id="w4">${esc(x.cr)}</textarea></label><label>แพลตฟอร์ม<input id="w5" value="${esc(x.pl)}"></label><label>สถานะ<select id="w6">${ST.map(s=>`<option ${s==x.st?'selected':''}>${s}</option>`).join('')}</select></label><label>หมายเหตุ<textarea id="w7">${esc(x.n)}</textarea></label><button class="btn" onclick="saveWk('${id||''}')">บันทึก</button>${id?`<button class="btn del" onclick="delWk('${id}')">ลบ</button>`:''}<button class="btn ghost" onclick="M()">ยกเลิก</button>`)}
+function saveWk(id){const t=$('#w3').value.trim();if(!t)return toast('กรุณาใส่ชื่องาน');let x=S.wk.find(w=>w.id==id);if(!x){x={id:uid()};S.wk.push(x)}
+Object.assign(x,{d:+$('#w1').value,tm:$('#w2').value,t,cr:$('#w4').value,pl:$('#w5').value,st:$('#w6').value,n:$('#w7').value});save();M();R()}
+function delWk(id){if(confirm('ลบรายการนี้?')){S.wk=S.wk.filter(w=>w.id!=id);save();M();R()}}
+/* ---------- สถิติ ---------- */
+function vStats(){const L=[...S.stats].sort((a,b)=>b.d.localeCompare(a.d));
+return`<button class="btn" onclick="editStat()">+ บันทึกสถิติ</button>`+(L.map(x=>`<div class="card" onclick="editStat('${x.id}')"><b>${esc(x.t)}</b><div class="meta">${fd(x.d)} · ${esc(x.p)}</div><div>👁 ${(+x.v||0).toLocaleString()} · 💬 ${x.c||0} · ↗ ${x.sh||0} · 🔖 ${x.sv||0} · ➕ ${x.f||0}</div>${x.n?`<small>${esc(x.n)}</small>`:''}</div>`).join('')||'<div class="empty">ยังไม่มีสถิติ กดปุ่มด้านบนเพื่อบันทึกหลังโพสต์หรือไลฟ์</div>')}
+function editStat(id){const x=S.stats.find(s=>s.id==id)||{d:today(),t:'',p:P[0],n:''};
+const num=(k,l)=>`<label>${l}<input type="number" inputmode="numeric" id="s_${k}" value="${x[k]||''}"></label>`;
+M(`<h2>${id?'แก้ไขสถิติ':'บันทึกสถิติ'}</h2><div class="two"><label>วันที่<input type="date" id="s_d" value="${x.d}"></label><label>แพลตฟอร์ม<select id="s_p">${P.map(p=>`<option ${p==x.p?'selected':''}>${p}</option>`).join('')}</select></label></div><label>ชื่อคลิป / ไลฟ์<input id="s_t" value="${esc(x.t)}"></label><div class="two">${num('v','ยอดวิว')}${num('c','คอมเมนต์')}${num('sh','แชร์')}${num('sv','บันทึก')}${num('f','ติดตามใหม่')}</div><label>หมายเหตุ<textarea id="s_n">${esc(x.n)}</textarea></label><button class="btn" onclick="saveStat('${id||''}')">บันทึก</button>${id?`<button class="btn del" onclick="delStat('${id}')">ลบรายการนี้</button>`:''}<button class="btn ghost" onclick="M()">ยกเลิก</button>`)}
+function saveStat(id){const t=$('#s_t').value.trim();if(!t)return toast('กรุณาใส่ชื่อคลิปหรือไลฟ์');let x=S.stats.find(s=>s.id==id);if(!x){x={id:uid()};S.stats.push(x)}
+Object.assign(x,{d:$('#s_d').value||today(),t,p:$('#s_p').value,n:$('#s_n').value});['v','c','sh','sv','f'].forEach(k=>x[k]=+$('#s_'+k).value||0);save();M();R()}
+function delStat(id){if(confirm('ลบรายการนี้?')){S.stats=S.stats.filter(s=>s.id!=id);save();M();R()}}
+/* ---------- พรอมต์ ---------- */
+function vPr(){const L=S.pr.filter(p=>p.cat==S.cat);
+return`<div class="chips">${CATS.map(c=>`<button class="chip ${S.cat==c?'on':''}" onclick="S.cat='${c}';R()">${c}</button>`).join('')}</div><button class="btn" onclick="editPr()">+ เพิ่มใน “${S.cat}”</button>`+
+(L.map(p=>`<div class="box"><b>${esc(p.title)}</b><div class="pt">${esc(p.text)}</div><div class="two"><button class="btn sm" onclick="cp('${p.id}')">คัดลอก</button><button class="btn sm ghost" onclick="editPr('${p.id}')">แก้ไข</button></div></div>`).join('')||'<div class="empty">ยังไม่มีรายการในหมวดนี้</div>')}
+function cp(id){const t=S.pr.find(p=>p.id==id).text;const ok=()=>toast('คัดลอกแล้ว ✓');
+const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('คัดลอกไม่ได้')}a.remove()};
+navigator.clipboard?navigator.clipboard.writeText(t).then(ok,fb):fb()}
+function editPr(id){const p=S.pr.find(x=>x.id==id)||{cat:S.cat,title:'',text:''};
+M(`<h2>${id?'แก้ไขพรอมต์':'เพิ่มพรอมต์'}</h2><label>หมวด<select id="p_c">${CATS.map(c=>`<option ${c==p.cat?'selected':''}>${c}</option>`).join('')}</select></label><label>ชื่อ<input id="p_t" value="${esc(p.title)}"></label><label>ข้อความพรอมต์<textarea id="p_x" style="min-height:180px">${esc(p.text)}</textarea></label><button class="btn" onclick="savePr('${id||''}')">บันทึก</button>${id?`<button class="btn del" onclick="delPr('${id}')">ลบ</button>`:''}<button class="btn ghost" onclick="M()">ยกเลิก</button>`)}
+function savePr(id){const title=$('#p_t').value.trim();if(!title)return toast('กรุณาใส่ชื่อ');let p=S.pr.find(x=>x.id==id);if(!p){p={id:uid()};S.pr.push(p)}Object.assign(p,{cat:$('#p_c').value,title,text:$('#p_x').value});S.cat=p.cat;save();M();R()}
+function delPr(id){if(confirm('ลบพรอมต์นี้?')){S.pr=S.pr.filter(p=>p.id!=id);save();M();R()}}
+/* ---------- CSV ---------- */
+const csvDefs={tasks:['งาน','ไทม์ไลน์ / รายการงาน'],stats:['สถิติ','บันทึกผลโพสต์และไลฟ์'],tl:['ไทม์ไลน์','แผนรายสัปดาห์'],pr:['พรอมต์','พรอมต์ AI และสคริปต์คลิป'],wk:['แผน 7 วัน','แผนงาน 7 วัน (รายวัน/เวลา)']};
+function vCsv(){return`${syncBox()}<h3>ส่งออก (ดาวน์โหลด CSV)</h3>${Object.keys(csvDefs).map(k=>`<button class="btn ghost" onclick="exp('${k}')">⬇ ${csvDefs[k][1]}</button>`).join('')}
+<h3>นำเข้าไฟล์ CSV</h3><div class="box"><label>ประเภทไฟล์<select id="itype"><option value="auto">ตรวจจับอัตโนมัติ</option><option value="tasks">รายการงาน</option><option value="stats">บันทึกผล / สถิติ</option><option value="tl">ไทม์ไลน์</option><option value="scripts">สคริปต์คลิป</option><option value="pr">พรอมต์ AI</option><option value="wk">แผนงาน 7 วัน</option></select></label><label>เลือกไฟล์<input type="file" id="ifile" accept=".csv,text/csv,text/plain"></label><button class="btn" onclick="impGo()">นำเข้า (เพิ่มต่อจากข้อมูลเดิม)</button></div>
+<h3>ข้อมูลทั้งหมด</h3><button class="btn del" onclick="if(confirm('ลบข้อมูลทั้งหมดและกลับเป็นค่าเริ่มต้น?')){S=Object.assign(defaults(),{page:'csv',flt:'ทั้งหมด',cat:'ภาพปก'});save();R()}">รีเซ็ตเป็นค่าเริ่มต้น</button>`}
+function toCSV(r){return'\ufeff'+r.map(x=>x.map(v=>{v=String(v??'');return/[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')).join('\r\n')}
+function parseCSV(t){t=t.replace(/^\ufeff/,'');const rows=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];
+if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++}else q=false}else f+=c}else if(c=='"')q=true;else if(c==','){r.push(f);f=''}else if(c=='\n'||c=='\r'){if(c=='\r'&&t[i+1]=='\n')i++;r.push(f);f='';rows.push(r);r=[]}else f+=c}
+if(f||r.length){r.push(f);rows.push(r)}return rows.filter(r=>r.some(x=>x.trim()))}
+function exp(k){let rows;
+if(k=='tasks')rows=[['ชื่องาน','วันเริ่ม','วันครบกำหนด','สถานะ','ความคืบหน้า','หมายเหตุ','แพลตฟอร์ม','รอบ']].concat(S.tasks.map(t=>[t.title,t.s,t.d,t.st,t.pr,t.note,t.pl.join(', '),t.rec]));
+if(k=='stats')rows=[['วันที่','ชื่อ','แพลตฟอร์ม','ยอดวิว','คอมเมนต์','แชร์','บันทึก','ติดตามใหม่','หมายเหตุ']].concat(S.stats.map(x=>[x.d,x.t,x.p,x.v,x.c,x.sh,x.sv,x.f,x.n]));
+if(k=='tl')rows=[['สัปดาห์','หัวข้อ','เสร็จแล้ว']].concat(S.tl.flatMap(w=>w.i.map(x=>[w.l,x.t,x.d?'ใช่':''])));
+if(k=='wk')rows=[['วัน','เวลา','งาน','เกณฑ์สำเร็จ','แพลตฟอร์ม','ความคืบหน้า','สถานะ','หมายเหตุ']].concat(S.wk.map(x=>['วันที่ '+x.d,x.tm,x.t,x.cr,x.pl,x.st==ST[2]?100:0,x.st,x.n]));
+if(k=='pr')rows=[['หมวด','ชื่อ','พรอมต์']].concat(S.pr.map(p=>[p.cat,p.title,p.text]));
+const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([toCSV(rows)],{type:'text/csv;charset=utf-8'}));a.download=`hairai-${k}-${today()}.csv`;document.body.appendChild(a);a.click();a.remove();toast('ส่งออกแล้ว ✓')}
+const ci=(h,ns)=>h.findIndex(x=>ns.some(n=>x.toLowerCase().includes(n)));
+function nd(v){v=(v||'').trim();let m=v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);if(m)return m[1]-(m[1]>2400?543:0)+'-'+pad(m[2])+'-'+pad(m[3]);
+m=v.match(/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/);if(m)return m[3]-(m[3]>2400?543:0)+'-'+pad(m[2])+'-'+pad(m[1]);return''}
+function np(v){const o=new Set();String(v||'').toLowerCase().split(/[,;/|、]+/).forEach(x=>{if(/ทุก|all/.test(x))P.forEach(p=>o.add(p));if(/tiktok/.test(x))o.add(P[0]);if(/กลุ่ม|group/.test(x))o.add(P[3]);else if(/facebook|เฟซ|fb/.test(x))o.add(P[1]);if(/youtube|ยูทูบ/.test(x))o.add(P[2]);if(/live|ไลฟ์/.test(x))o.add(P[4])});return P.filter(p=>o.has(p))}
+function impGo(){const f=$('#ifile').files[0];if(!f)return toast('กรุณาเลือกไฟล์ก่อน');const r=new FileReader();r.onload=()=>{try{imp(r.result,$('#itype').value)}catch(e){toast('อ่านไฟล์ไม่สำเร็จ')}};r.readAsText(f,'utf-8')}
+function imp(txt,type){const rows=parseCSV(txt);if(!rows.length)return toast('ไฟล์ไม่มีข้อมูล');
+const nh=/^วันที่\s*\d/.test(rows[0][0]);
+if(type=='wk'||nh||(type=='auto'&&/เกณฑ์สำเร็จ/.test(rows[0].join()))){const h2=nh?[]:rows[0].map(x=>x.trim()),b2=nh?rows:rows.slice(1);
+const c=nh?[0,1,2,3,4,5,6,7]:[['วัน','day'],['เวลา','time'],['งาน','กิจกรรม','title'],['เกณฑ์','criteria'],['แพลตฟอร์ม','platform'],['คืบหน้า','progress'],['สถานะ','status'],['หมายเหตุ','note']].map(x=>ci(h2,x));let k=0;
+b2.forEach(r=>{const q=i=>i<0?'':(r[i]||'').trim(),t=q(c[2]);if(!t)return;const sv=q(c[6]),st=/เสร็จ|done|complete/i.test(sv)?ST[2]:/กำลัง|doing|progress/i.test(sv)?ST[1]:ST[0];
+S.wk.push({id:uid(),d:Math.min(7,parseInt(q(c[0]).replace(/\D/g,''))||1),tm:q(c[1]),t,cr:q(c[3]),pl:q(c[4])||'ทุกแพลตฟอร์ม',st,n:q(c[7])});k++});
+save();toast('นำเข้าแผน 7 วัน '+k+' รายการ ✓');S.page='wk';R();return}
+if(rows.length<2)return toast('ไฟล์ไม่มีข้อมูล');const h=rows[0].map(x=>x.trim()),b=rows.slice(1),j=h.join('|').toLowerCase();
+if(type=='auto')type=/ยอดวิว|views/.test(j)?'stats':/สคริปต์|script/.test(j)?'scripts':/พรอมต์|prompt/.test(j)?'pr':/สัปดาห์|week/.test(j)?'tl':'tasks';
+const g=(r,i)=>i<0?'':(r[i]||'').trim();let n=0;
+if(type=='tasks'){const c=[['ชื่องาน','งาน','title','task'],['วันเริ่ม','start'],['กำหนด','due'],['สถานะ','status'],['คืบหน้า','progress','%'],['หมายเหตุ','note'],['แพลตฟอร์ม','platform'],['รอบ']].map(x=>ci(h,x));
+b.forEach(r=>{const title=g(r,c[0]!=-1?c[0]:0);if(!title)return;const sv=g(r,c[3]),due=g(r,c[2]);
+const st=/เสร็จ|done|complete/i.test(sv)?ST[2]:/กำลัง|doing|progress/i.test(sv)?ST[1]:ST[0];let pr=parseInt(g(r,c[4]))||0;if(st==ST[2])pr=100;
+S.tasks.push({id:uid(),title,s:nd(g(r,c[1])),d:nd(due),st,pr:Math.min(100,pr),note:g(r,c[5]),pl:np(g(r,c[6])),rec:g(r,c[7])||(nd(due)?'':due)});n++})}
+if(type=='stats'){const c=[['วันที่','date'],['ชื่อ','คลิป','title'],['แพลตฟอร์ม','platform'],['วิว','view'],['คอมเมนต์','comment'],['แชร์','share'],['บันทึก','save'],['ติดตาม','follow'],['หมายเหตุ','note']].map(x=>ci(h,x));
+b.forEach(r=>{const t=g(r,c[1]);if(!t)return;const pl=np(g(r,c[2]))[0]||g(r,c[2])||P[0],N=i=>parseInt(g(r,i).replace(/,/g,''))||0;
+S.stats.push({id:uid(),d:nd(g(r,c[0]))||today(),t,p:pl,v:N(c[3]),c:N(c[4]),sh:N(c[5]),sv:N(c[6]),f:N(c[7]),n:g(r,c[8])});n++})}
+if(type=='tl'){const c=[ci(h,['เดือน','month']),ci(h,['สัปดาห์','week']),ci(h,['หัวข้อ','เนื้อหา','topic','รายการ','คลิป']),ci(h,['เสร็จ','done'])];
+b.forEach(r=>{const l=[g(r,c[0]),g(r,c[1])].filter(Boolean).join(' ')||g(r,0),tp=g(r,c[2]>=0?c[2]:h.length-1);if(!l)return;let w=S.tl.find(x=>x.l==l);if(!w){w={id:uid(),l,i:[]};S.tl.push(w)}
+tp.split(/[,;、|\n]/).map(x=>x.trim()).filter(Boolean).forEach(t=>{w.i.push({t,d:/ใช่|true|1|done/i.test(g(r,c[3]))});n++})})}
+if(type=='pr'||type=='scripts'){const c=[ci(h,['หมวด','category']),ci(h,['ชื่อ','หัวข้อ','คลิป','title']),ci(h,['พรอมต์','prompt','สคริปต์','script','เนื้อหา','ข้อความ','บท'])];
+b.forEach(r=>{const title=g(r,c[1]>=0?c[1]:0),text=(r[c[2]>=0?c[2]:r.length-1]||'').trim();if(!title&&!text)return;
+const cat=type=='scripts'?CATS[4]:CATS.find(x=>g(r,c[0]).includes(x))||g(r,c[0])||CATS[0];if(!CATS.includes(cat))CATS.push(cat);S.pr.push({id:uid(),cat,title:title||text.slice(0,30),text});n++})}
+save();toast(`นำเข้า ${n} รายการ ✓`);S.page={tasks:'tasks',stats:'stats',tl:'tl',pr:'pr',scripts:'pr'}[type];R()}
+/* ---------- แจ้งเตือน ---------- */
+function vNt(){const sup='Notification'in window,perm=sup?Notification.permission:'ไม่รองรับ';
+return`<div class="box"><b>สถานะเบราว์เซอร์:</b> ${{granted:'อนุญาตแล้ว ✓',denied:'ถูกปิดกั้น (เปิดได้ที่ตั้งค่าเว็บไซต์)',default:'ยังไม่ได้อนุญาต'}[perm]||perm}${sup&&perm!='granted'?`<button class="btn" onclick="reqN()">อนุญาตการแจ้งเตือน</button>`:''}</div>
+<div class="box"><label style="color:var(--ink)"><input type="checkbox" ${S.set.on?'checked':''} onchange="S.set.on=this.checked;save(1)"> เปิดแจ้งเตือนงานครบกำหนด</label><label>เวลาแจ้งเตือนรายวัน<input type="time" value="${S.set.time}" onchange="S.set.time=this.value;S.set.last='';save(1)"></label><label style="color:var(--ink)"><input type="checkbox" ${S.set.before?'checked':''} onchange="S.set.before=this.checked;save(1)"> แจ้งล่วงหน้า 1 วัน</label></div>
+<button class="btn ghost" onclick="notify('ทดสอบแจ้งเตือน','ถ้าเห็นข้อความนี้ แสดงว่าใช้งานได้')">ส่งแจ้งเตือนทดสอบ</button>
+<p class="hint">แอปจะแจ้งเตือนเมื่อเปิดหน้านี้ค้างไว้หรือเปิดกลับมา และจะแสดงแถบเตือนบนหน้ารายการงานเสมอ</p>`}
+async function reqN(){try{await Notification.requestPermission()}catch(e){}R()}
+function notify(t,b){if(!('Notification'in window)||Notification.permission!='granted')return toast('ยังไม่ได้อนุญาตการแจ้งเตือน');
+try{if(navigator.serviceWorker&&navigator.serviceWorker.controller)navigator.serviceWorker.ready.then(r=>r.showNotification(t,{body:b}));else new Notification(t,{body:b})}catch(e){toast(t+' — '+b)}}
+function chk(){if(!S.set.on||!('Notification'in window)||Notification.permission!='granted')return;const n=new Date(),k=iso(n);
+if(S.set.last==k||pad(n.getHours())+':'+pad(n.getMinutes())<S.set.time)return;S.set.last=k;save(1);const l=dueList();
+if(l.length)notify(`มีงานครบกำหนด ${l.length} รายการ`,l.slice(0,4).map(t=>t.title).join(', '))}
+setInterval(chk,30000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)chk()});
+/* ---------- ซิงก์ Google Sheets ---------- */
+const TB={'งาน':['id','ชื่องาน','วันเริ่ม','วันครบกำหนด','สถานะ','ความคืบหน้า','หมายเหตุ','แพลตฟอร์ม','รอบ'],'สถิติ':['id','วันที่','ชื่อ','แพลตฟอร์ม','ยอดวิว','คอมเมนต์','แชร์','บันทึก','ติดตามใหม่','หมายเหตุ'],'ไทม์ไลน์':['id','สัปดาห์','หัวข้อ','เสร็จแล้ว'],'พรอมต์':['id','หมวด','ชื่อ','พรอมต์'],'แผน7วัน':['id','วัน','เวลา','งาน','เกณฑ์สำเร็จ','แพลตฟอร์ม','สถานะ','ความคืบหน้า','หมายเหตุ']};
+const pack=()=>({'งาน':[TB['งาน'],...S.tasks.map(t=>[t.id,t.title,t.s,t.d,t.st,t.pr,t.note,t.pl.join(', '),t.rec])],'สถิติ':[TB['สถิติ'],...S.stats.map(x=>[x.id,x.d,x.t,x.p,x.v,x.c,x.sh,x.sv,x.f,x.n])],'ไทม์ไลน์':[TB['ไทม์ไลน์'],...S.tl.flatMap(w=>w.i.length?w.i.map(x=>[w.id,w.l,x.t,x.d?'ใช่':'']):[[w.id,w.l,'','']])],'พรอมต์':[TB['พรอมต์'],...S.pr.map(p=>[p.id,p.cat,p.title,p.text])],'แผน7วัน':[TB['แผน7วัน'],...S.wk.map(x=>[x.id,x.d,x.tm,x.t,x.cr,x.pl,x.st,x.st==ST[2]?100:0,x.n])]});
+function unpack(r){const T=r.tabs,rows=n=>(T[n]||[]).slice(1).filter(x=>x.some(c=>String(c).trim()));
+S.tasks=rows('งาน').filter(x=>x[1]).map(x=>({id:x[0]||uid(),title:x[1],s:nd(x[2]),d:nd(x[3]),st:ST.includes(x[4])?x[4]:ST[0],pr:Math.min(100,parseInt(x[5])||0),note:x[6]||'',pl:np(x[7]),rec:x[8]||''}));
+S.stats=rows('สถิติ').filter(x=>x[2]).map(x=>({id:x[0]||uid(),d:nd(x[1])||today(),t:x[2],p:x[3],v:+x[4]||0,c:+x[5]||0,sh:+x[6]||0,sv:+x[7]||0,f:+x[8]||0,n:x[9]||''}));
+const m={};S.tl=[];rows('ไทม์ไลน์').forEach(x=>{if(!x[1])return;const k=x[0]||x[1];let w=m[k];if(!w){w=m[k]={id:x[0]||uid(),l:x[1],i:[]};S.tl.push(w)}if(x[2])w.i.push({t:x[2],d:x[3]=='ใช่'})});
+S.pr=rows('พรอมต์').filter(x=>x[2]).map(x=>({id:x[0]||uid(),cat:x[1]||CATS[0],title:x[2],text:x[3]||''}));S.pr.forEach(p=>{if(!CATS.includes(p.cat))CATS.push(p.cat)});if(T['แผน7วัน'])S.wk=rows('แผน7วัน').filter(x=>x[3]).map(x=>({id:x[0]||uid(),d:parseInt(x[1])||1,tm:x[2]||'',t:x[3],cr:x[4]||'',pl:x[5]||'',st:ST.includes(x[6])?x[6]:ST[0],n:x[8]||''}))}
+async function call(b){const r=await fetch(S.set.url,b?{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(b)}:{});return r.json()}
+async function sync(manual){if(!S.set.url||S.busy||D)return;S.busy=1;try{const r=await call(),m=S.mod||0;
+if(r.mod>m){unpack(r);S.mod=r.mod;save(1);R();toast('ดึงข้อมูลจาก Sheets แล้ว ✓')}
+else if(m>r.mod||!r.tabs['งาน']){await call({mod:m||(S.mod=Date.now()),tabs:pack()});if(manual)toast('ส่งขึ้น Sheets แล้ว ✓')}
+else if(manual)toast('ข้อมูลตรงกันแล้ว ✓');S.set.at=Date.now();save(1)}catch(e){if(manual)toast('เชื่อมต่อ Sheets ไม่ได้ ตรวจลิงก์และสิทธิ์')}S.busy=0;if(manual)R()}
+async function forceSync(up){if(!confirm(up?'ส่งข้อมูลในแอปขึ้นไปทับชีต?':'ดึงข้อมูลจากชีตมาทับในแอป?'))return;S.busy=1;try{if(up){S.mod=Date.now();await call({mod:S.mod,tabs:pack()})}else{const r=await call();unpack(r);S.mod=r.mod}S.set.at=Date.now();save(1);toast('เรียบร้อย ✓')}catch(e){toast('เชื่อมต่อไม่ได้')}S.busy=0;R()}
+function syncBox(){const u=S.set.url||'';return`<h3>ซิงก์ Google Sheets อัตโนมัติ</h3><div class="box"><label>ลิงก์ Web App (ลงท้าย /exec)<input value="${esc(u)}" placeholder="https://script.google.com/macros/s/…/exec" onchange="S.set.url=this.value.trim();save(1);sync(1)"></label>${u?`<small>ซิงก์ล่าสุด: ${S.set.at?new Date(S.set.at).toLocaleTimeString('th-TH'):'ยังไม่เคย'}</small><button class="btn sm" onclick="sync(1)">ซิงก์ตอนนี้</button><div class="two"><button class="btn sm ghost" onclick="forceSync(1)">ส่งขึ้น (ทับชีต)</button><button class="btn sm ghost" onclick="forceSync(0)">ดึงลง (ทับแอป)</button></div>`:''}</div>`}
+/* ---------- เริ่มทำงาน ---------- */
+const V={wk:vWk,tasks:vTasks,ov:vOv,tl:vTl,stats:vStats,pr:vPr,csv:vCsv,nt:vNt};
+function R(){$('#app').innerHTML=V[S.page]();$('#ttl').textContent=PG.find(p=>p[0]==S.page)[3];
+$('#nav').innerHTML=PG.map(p=>`<button class="${S.page==p[0]?'on':''}" onclick="S.page='${p[0]}';M();R();scrollTo(0,0)"><b>${p[1]}</b>${p[2]}</button>`).join('')}
+R();chk();sync();setInterval(()=>sync(),60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
+</script></body></html>
